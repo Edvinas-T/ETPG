@@ -2,31 +2,56 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Player : MonoBehaviour
 {
-    private float current_speed;
-    private float walking_speed = 1;
+    public LayerMask whatCanBeClicked;
+    public NavMeshAgent player;
+    public Animator playerAnimator;
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        current_speed = walking_speed;
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (should_move_forward()) move_forward();
+        move_forward();
+        animate();
+        
+       
     }
-
+   
     private void move_forward()
-    {   
-        transform.position += current_speed * transform.forward * Time.deltaTime;
+    {
+        if (Input.GetMouseButton(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, whatCanBeClicked))
+            {
+                
+                player.SetDestination(hit.point);
+            }
+        }
     }
 
-    private bool should_move_forward()
+    private void animate()
     {
-        return Input.GetKey(KeyCode.W);
+        if (player.velocity != Vector3.zero)
+        {
+            playerAnimator.SetBool("isWalking", true);
+
+        }
+        else if (player.velocity == Vector3.zero)
+        {
+            playerAnimator.SetBool("isWalking", false);
+
+        }
     }
 }
