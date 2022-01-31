@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class Player : MonoBehaviour
 {
     public LayerMask whatCanBeClicked;
+    
     public NavMeshAgent player;
     public Animator playerAnimator;
     
@@ -35,9 +36,10 @@ public class Player : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, whatCanBeClicked))
             {
-                
+                player.isStopped = false;
                 player.SetDestination(hit.point);
             }
+           
         }
     }
 
