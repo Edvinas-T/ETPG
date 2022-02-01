@@ -5,16 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class NPC : MonoBehaviour
 {
-    public int scene;
+    public int loadScene;
+    public int unloadScene;
+
 
     bool loaded;
 
-    private void OnTriggerEnter()
+    
+    void OnTriggerEnter()
     {
         if (!loaded)
         {
-            SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
-
+            Manager.manager.UnloadScene(unloadScene);
+            SceneManager.LoadSceneAsync(loadScene, LoadSceneMode.Additive);
+            
             loaded = true;
         }
     }
@@ -27,6 +31,10 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            Manager.manager.UnloadScene(unloadScene);
+            SceneManager.LoadSceneAsync(loadScene, LoadSceneMode.Additive);
+        }
     }
 }
