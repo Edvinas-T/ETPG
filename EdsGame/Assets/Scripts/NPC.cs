@@ -7,7 +7,8 @@ public class NPC : MonoBehaviour
 {
     public int loadScene;
     public int unloadScene;
-
+   
+    
 
     bool loaded;
 
@@ -16,8 +17,12 @@ public class NPC : MonoBehaviour
     {
         if (!loaded)
         {
+            
             Manager.manager.UnloadScene(unloadScene);
             SceneManager.LoadSceneAsync(loadScene, LoadSceneMode.Additive);
+            transform.position.Set(0, 0, 0);
+            
+            
             
             loaded = true;
         }
@@ -31,10 +36,6 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            Manager.manager.UnloadScene(unloadScene);
-            SceneManager.LoadSceneAsync(loadScene, LoadSceneMode.Additive);
-        }
+
     }
 }
