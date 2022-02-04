@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class Manager : MonoBehaviour
 {
     public static Manager manager;
-
+    public GameObject player;
     bool gameStart;
 
     // Start is called before the first frame update
@@ -17,10 +17,15 @@ public class Manager : MonoBehaviour
             manager = this;
             SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
 
+
             gameStart = true;
         }
     }
 
+    private void Update()
+    {
+        
+    }
     public void UnloadScene(int scene)
     {
         StartCoroutine(Unload(scene));
