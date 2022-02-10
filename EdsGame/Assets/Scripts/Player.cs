@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 public class Player : MonoBehaviour
 {
     public LayerMask whatCanBeClicked;
@@ -11,11 +12,8 @@ public class Player : MonoBehaviour
     public NavMeshAgent player;
     public Animator playerAnimator;
 
-    private void OnTriggerEnter()
-    {
-        player.isStopped = true;
-        transform.position.Set(2, 2, 2);
-    }
+    
+
 
     // Start is called before the first frame update
     void Start()
