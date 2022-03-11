@@ -25,6 +25,7 @@ public class EnemyStateMachine : MonoBehaviour
     private bool actionStarted = false;
     public GameObject heroToAttack;
     private float animSpeed = 5f;
+    public Animator NPCAnimator;
 
     void Start()
     {
@@ -92,11 +93,13 @@ public class EnemyStateMachine : MonoBehaviour
         actionStarted = true;
 
         //animate enemy to attack player
-        Vector3 heroPos = new Vector3(heroToAttack.transform.position.x, heroToAttack.transform.position.y, heroToAttack.transform.position.z -4f);
+        Vector3 heroPos = new Vector3(heroToAttack.transform.position.x, this.transform.position.y, heroToAttack.transform.position.z -4f);
+        NPCAnimator.SetBool("isMoving", true);
         while (MoveTowardsEnemy(heroPos))
         {
             yield return null;
         }
+        
         //wait
         yield return new WaitForSeconds(0.5f);
         //do damage
@@ -107,6 +110,7 @@ public class EnemyStateMachine : MonoBehaviour
         {
             yield return null;
         }
+        NPCAnimator.SetBool("isMoving", false);
         //remove performer from list
         BM.PerformList.RemoveAt(0);
         //reset bm -> wait

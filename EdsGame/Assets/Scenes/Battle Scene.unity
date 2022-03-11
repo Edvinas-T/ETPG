@@ -664,6 +664,13 @@ MonoBehaviour:
     baseDEF: 5
     curDEF: 5
   currentState: 0
+  heroToAttack: {fileID: 0}
+  NPCAnimator: {fileID: 148428168}
+--- !u!95 &148428168 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1171763907447455027, guid: cc088e5fb1acae74daef758e122f8d26, type: 3}
+  m_PrefabInstance: {fileID: 148428164}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &160424399
 PrefabInstance:
   m_ObjectHideFlags: 0
