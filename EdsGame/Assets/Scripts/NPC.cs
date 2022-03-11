@@ -1,15 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 public class NPC : MonoBehaviour
 {
     public int loadScene;
     public int unloadScene;
-   
-    
 
+   
     bool loaded;
 
     
@@ -36,6 +37,8 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+    
     }
+
+  
 }
