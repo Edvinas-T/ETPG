@@ -32,6 +32,7 @@ public class EnemyStateMachine : MonoBehaviour
         currentState = TurnState.PROCESSING;
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         startpos = transform.position;
+        
     }
 
     // Update is called once per frame
@@ -93,15 +94,17 @@ public class EnemyStateMachine : MonoBehaviour
         actionStarted = true;
 
         //animate enemy to attack player
-        Vector3 heroPos = new Vector3(heroToAttack.transform.position.x, this.transform.position.y, heroToAttack.transform.position.z -4f);
+        Vector3 heroPos = new Vector3(heroToAttack.transform.position.x, heroToAttack.transform.position.y, heroToAttack.transform.position.z -4f);
         NPCAnimator.SetBool("isMoving", true);
         while (MoveTowardsEnemy(heroPos))
         {
             yield return null;
         }
-        
+
         //wait
-        yield return new WaitForSeconds(0.5f);
+        NPCAnimator.SetBool("isAttack", true);
+        yield return new WaitForSeconds(1.9f);
+        NPCAnimator.SetBool("isAttack", false);
         //do damage
 
         //animate back to idle
