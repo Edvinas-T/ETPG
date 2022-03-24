@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HeroStateMachine : MonoBehaviour
 {
-
+    private BattleManager BM;
     public BattlePlayer player;
     
     public enum TurnState
@@ -26,7 +26,9 @@ public class HeroStateMachine : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         currentState = TurnState.PROCESSING;
+
     }
 
     // Update is called once per frame
@@ -39,11 +41,12 @@ public class HeroStateMachine : MonoBehaviour
                 break;
 
             case (TurnState.ADDTOLIST):
-                
+                BM.HeroesToManage.Add(this.gameObject);
+                currentState = TurnState.WAITING;
                 break;
 
             case (TurnState.WAITING):
-               
+               //idle
                 break;
 
             case (TurnState.SELECTING):
