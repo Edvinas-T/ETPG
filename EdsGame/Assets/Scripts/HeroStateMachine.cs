@@ -23,11 +23,15 @@ public class HeroStateMachine : MonoBehaviour
     private float cur_cooldown = 0f;
     private float max_cooldown = 5f;
     public Image ProgressBar;
+    public GameObject Selector;
     // Start is called before the first frame update
     void Start()
     {
+        cur_cooldown = Random.Range(0, player.agilty / max_cooldown);
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         currentState = TurnState.PROCESSING;
+
+        Selector.SetActive(false);
 
     }
 
