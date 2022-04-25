@@ -124,7 +124,7 @@ public class BattleManager : MonoBehaviour {
             EnemyStateMachine curEnemy = enemy.GetComponent<EnemyStateMachine>();
 
             Text buttonText = newButton.GetComponentInChildren<Text>();
-            buttonText.text = curEnemy.enemy.name;
+            buttonText.text = curEnemy.enemy.theName;
 
             button.EnemyPrefab = enemy;
 

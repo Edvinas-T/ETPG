@@ -26,13 +26,14 @@ public class EnemyStateMachine : MonoBehaviour
     public GameObject heroToAttack;
     private float animSpeed = 5f;
     public Animator NPCAnimator;
+    public GameObject Selector;
 
     void Start()
     {
         currentState = TurnState.PROCESSING;
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         startpos = transform.position;
-        
+        Selector.SetActive(false);
     }
 
     // Update is called once per frame
@@ -76,7 +77,7 @@ public class EnemyStateMachine : MonoBehaviour
         void ChooseAction()
         {
             HandleTurns myAttack = new HandleTurns();
-            myAttack.Attacker = enemy.name;
+            myAttack.Attacker = enemy.theName;
             myAttack.Type = "Enemy";
             myAttack.AttackersGameObject = this.gameObject;
             myAttack.AttackersTarget = BM.PlayersInBattle[Random.Range(0, BM.PlayersInBattle.Count)];
