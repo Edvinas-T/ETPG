@@ -81,6 +81,11 @@ public class EnemyStateMachine : MonoBehaviour
             myAttack.Type = "Enemy";
             myAttack.AttackersGameObject = this.gameObject;
             myAttack.AttackersTarget = BM.PlayersInBattle[Random.Range(0, BM.PlayersInBattle.Count)];
+
+            int num = Random.Range(0, enemy.Attacks.Count);
+            myAttack.chooseAttack = enemy.Attacks[num];
+            Debug.Log(this.gameObject.name + " has chosen " + myAttack.chooseAttack.attackName + " and does " + myAttack.chooseAttack.attackDamage + " damage!");
+
             BM.CollectActions(myAttack);
         }
        
@@ -107,7 +112,7 @@ public class EnemyStateMachine : MonoBehaviour
         yield return new WaitForSeconds(1.9f);
         NPCAnimator.SetBool("isAttack", false);
         //do damage
-
+        doDamage();
         //animate back to idle
         Vector3 firstPos = startpos;
         while (MoveTowardsStart(firstPos))
@@ -136,4 +141,11 @@ public class EnemyStateMachine : MonoBehaviour
     {
         return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
     }
+
+    void doDamage()
+    {
+        float calcDamage = enemy.curATK + BM.PerformList[0].chooseAttack.attackDamage;
+        heroToAttack.GetComponent<HeroStateMachine>().takeDamage(calcDamage);
+    }
 }
+

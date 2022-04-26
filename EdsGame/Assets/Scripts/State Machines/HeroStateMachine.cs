@@ -22,7 +22,7 @@ public class HeroStateMachine : MonoBehaviour
 
     private float cur_cooldown = 0f;
     private float max_cooldown = 5f;
-    public Image ProgressBar;
+    private Image ProgressBar;
     public GameObject Selector;
 
     public GameObject EnemytoAttack;
@@ -31,10 +31,18 @@ public class HeroStateMachine : MonoBehaviour
     private float animSpeed = 5f;
     public Animator NPCAnimator;
 
+    private bool alive = true;
+
+    private HeroPanelStats stats;
+    public GameObject HeroPanel;
+    
+
 
     // Start is called before the first frame update
     void Start()
     {
+        createPlayerPanel();
+
         startpos = transform.position;
         cur_cooldown = Random.Range(0, player.agilty / max_cooldown);
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
@@ -71,7 +79,36 @@ public class HeroStateMachine : MonoBehaviour
                 break;
 
             case (TurnState.DEAD):
+                if(!alive)
+                {
+                    return;
+                }
+                else
+                {
+                    this.gameObject.tag = "DeadHero";
+                    //enemy cant target
+                    BM.PlayersInBattle.Remove(this.gameObject);
+                    //user cant manage
+                    BM.HeroesToManage.Remove(this.gameObject);
 
+                    Selector.SetActive(false);
+
+                    BM.AttackPanel.SetActive(false);
+                    BM.EnemySelectPanel.SetActive(false);
+                    //removes from perform list
+                    for (int i = 0; i < BM.PerformList.Count; i++)
+                    {
+                        if(BM.PerformList[i].AttackersGameObject == this.gameObject)
+                        {
+                            BM.PerformList.Remove(BM.PerformList[i]);
+                        }
+                    }
+
+                   
+                   
+                    BM.HeroInput = BattleManager.HeroUI.ACTIVATE;
+                    alive = false;
+                }
                 break;
 
         }
@@ -139,5 +176,30 @@ public class HeroStateMachine : MonoBehaviour
     private bool MoveTowardsStart(Vector3 target)
     {
         return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
+    }
+    public void takeDamage(float damageAmount)
+    {
+        player.curHP -= damageAmount;
+        if(player.curHP <= 0)
+        {
+            player.curHP = 0;
+            currentState = TurnState.DEAD;
+        }
+        updatePlayerPanel();
+    }
+    void createPlayerPanel()
+    {
+        stats = HeroPanel.GetComponent<HeroPanelStats>();
+        stats.HeroName.text = player.theName;
+        stats.HeroHP.text = "HP: " + player.curHP;
+        stats.HeroMP.text = "MP: " + player.curMP;
+        ProgressBar = stats.ProgressBar;
+        
+    }
+    void updatePlayerPanel()
+    {
+        stats.HeroHP.text = "HP: " + player.curHP;
+        stats.HeroMP.text = "MP: " + player.curMP;
+       
     }
 }
