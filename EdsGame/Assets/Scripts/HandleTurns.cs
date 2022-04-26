@@ -12,4 +12,5 @@ public class HandleTurns
     public GameObject AttackersTarget; //who is gonna be attacked
 
     //which attack is performed
+    public BaseAttack chooseAttack;
 }

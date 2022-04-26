@@ -72,14 +72,17 @@ public class BattleManager : MonoBehaviour {
                     ESM.heroToAttack = PerformList[0].AttackersTarget;
                     ESM.currentState = EnemyStateMachine.TurnState.ACTION;
                 }
-                if (PerformList[0].Type == "Player")
+                if (PerformList[0].Type == "Hero")
                 {
-                    Debug.Log("hero perform");
+                    HeroStateMachine HSM = performer.GetComponent<HeroStateMachine>();
+                    HSM.EnemytoAttack = PerformList[0].AttackersTarget;
+                    HSM.currentState = HeroStateMachine.TurnState.ACTION;
                 }
                 battleStates = PerformAction.PERFORMACTION;
                 break;
 
             case (PerformAction.PERFORMACTION):
+                //just an idlestate
                 break;
      
         }
@@ -121,7 +124,7 @@ public class BattleManager : MonoBehaviour {
             EnemyStateMachine curEnemy = enemy.GetComponent<EnemyStateMachine>();
 
             Text buttonText = newButton.GetComponentInChildren<Text>();
-            buttonText.text = curEnemy.enemy.name;
+            buttonText.text = curEnemy.enemy.theName;
 
             button.EnemyPrefab = enemy;
 

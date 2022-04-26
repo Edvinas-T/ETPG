@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - NPC
+  - DeadHero
+  - DeadEnemy
   layers:
   - Default
   - TransparentFX
