@@ -55,6 +55,7 @@ public class HeroStateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         switch (currentState)
         {
             case (TurnState.PROCESSING):
@@ -119,6 +120,7 @@ public class HeroStateMachine : MonoBehaviour
             float calc_cooldown = cur_cooldown / max_cooldown;
             ProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1), 
                 ProgressBar.transform.localScale.y, ProgressBar.transform.localScale.z);
+            
 
                 if (cur_cooldown >= max_cooldown)
             {
@@ -136,7 +138,7 @@ public class HeroStateMachine : MonoBehaviour
         actionStarted = true;
 
         //animate enemy to attack player
-        Vector3 enemyPos = new Vector3(EnemytoAttack.transform.position.x, EnemytoAttack.transform.position.y, EnemytoAttack.transform.position.z);
+        Vector3 enemyPos = new Vector3(EnemytoAttack.transform.position.x, EnemytoAttack.transform.position.y, EnemytoAttack.transform.position.z +3f);
         NPCAnimator.SetBool("isMoving", true);
         while (MoveTowardsEnemy(enemyPos))
         {
@@ -145,7 +147,7 @@ public class HeroStateMachine : MonoBehaviour
 
         //wait
         NPCAnimator.SetBool("isAttack", true);
-        yield return new WaitForSeconds(1.9f);
+        yield return new WaitForSeconds(1f);
         NPCAnimator.SetBool("isAttack", false);
         //do damage
 
