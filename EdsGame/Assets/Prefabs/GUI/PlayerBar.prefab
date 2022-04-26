@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'HP: 100'
+  m_Text: 'HP: 39.78'
 --- !u!1 &1036096415004734171
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,7 +436,7 @@ RectTransform:
   m_GameObject: {fileID: 1036096416289831744}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.27142274, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1036096416258610980}
   m_RootOrder: 2
