@@ -137,6 +137,7 @@ public class BattleManager : MonoBehaviour {
         HeroChoice.Attacker = HeroesToManage[0].name;
         HeroChoice.AttackersGameObject = HeroesToManage[0];
         HeroChoice.Type = "Hero";
+        HeroChoice.chooseAttack = HeroesToManage[0].GetComponent<HeroStateMachine>().player.Attacks[0];
 
         AttackPanel.SetActive(false);
         EnemySelectPanel.SetActive(true);
