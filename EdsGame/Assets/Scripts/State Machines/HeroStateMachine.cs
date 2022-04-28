@@ -71,10 +71,6 @@ public class HeroStateMachine : MonoBehaviour
                //idle
                 break;
 
-            case (TurnState.SELECTING):
-             
-                break;
-
             case (TurnState.ACTION):
                 StartCoroutine(TimeForAction());
                 break;
@@ -105,9 +101,7 @@ public class HeroStateMachine : MonoBehaviour
                         }
                     }
 
-                   
-                   
-                    BM.HeroInput = BattleManager.HeroUI.ACTIVATE;
+                    BM.battleStates = BattleManager.PerformAction.CHECKALIVE;
                     alive = false;
                 }
                 break;
@@ -138,7 +132,8 @@ public class HeroStateMachine : MonoBehaviour
         actionStarted = true;
 
         //animate enemy to attack player
-        Vector3 enemyPos = new Vector3(EnemytoAttack.transform.position.x, EnemytoAttack.transform.position.y, EnemytoAttack.transform.position.z +3f);
+        Vector3 enemyPos = new Vector3(EnemytoAttack.transform.position.x,
+            EnemytoAttack.transform.position.y, EnemytoAttack.transform.position.z +3f);
         NPCAnimator.SetBool("isMoving", true);
         while (MoveTowardsEnemy(enemyPos))
         {
@@ -161,7 +156,15 @@ public class HeroStateMachine : MonoBehaviour
         //remove performer from list
         BM.PerformList.RemoveAt(0);
         //reset bm -> wait
-        BM.battleStates = BattleManager.PerformAction.WAIT;
+        if (BM.battleStates != BattleManager.PerformAction.WIN && BM.battleStates != BattleManager.PerformAction.LOSE)
+        {
+            BM.battleStates = BattleManager.PerformAction.WAIT;
+        }
+        else
+        {
+            currentState = TurnState.WAITING;
+        }
+        
 
 
         actionStarted = false;

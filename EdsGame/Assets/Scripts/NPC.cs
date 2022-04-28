@@ -7,38 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class NPC : MonoBehaviour
 {
-    public int loadScene;
-    public int unloadScene;
+    public int sceneNo;
 
-   
-    bool loaded;
-
-    
-    void OnTriggerEnter()
+    void OnTriggerEnter(Collider other)
     {
-        if (!loaded)
-        {
-            
-            Manager.manager.UnloadScene(unloadScene);
-            SceneManager.LoadSceneAsync(loadScene, LoadSceneMode.Additive);
-            transform.position.Set(0, 0, 0);
-            
-            
-            
-            loaded = true;
-        }
+        SceneManager.LoadScene(sceneNo);    
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    
-    }
-
-  
 }

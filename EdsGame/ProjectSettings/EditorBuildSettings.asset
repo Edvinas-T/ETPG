@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/NeverUnload.unity
+    path: Assets/Scenes/Start.unity
     guid: 3a89cbcaf42c4c14ea55b40533e9af76
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Demo Blue.unity
     guid: 6121371ee5e49ba4b94976094f280b7f
   - enabled: 1
-    path: Assets/Scenes/Battle Scene.unity
+    path: Assets/Scenes/BattleScene.unity
     guid: cd7d54d63bdb8644eab11a1cf279f750
+  - enabled: 1
+    path: Assets/Scenes/BattleScene2.unity
+    guid: bdcc17a33d7252b4ebd9fbf51e5aa3fc
   m_configObjects: {}
