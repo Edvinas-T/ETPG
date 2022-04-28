@@ -1,15 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class BattleManager : MonoBehaviour { 
+public class BattleManager : MonoBehaviour {
 
+    Manager instance;
     public enum PerformAction
     {
         WAIT,
         TAKEACTION,
-        PERFORMACTION
+        PERFORMACTION,
+        CHECKALIVE,
+        WIN,
+        LOSE
     }
     public PerformAction battleStates;
 
@@ -36,6 +41,8 @@ public class BattleManager : MonoBehaviour {
 
     public GameObject AttackPanel;
     public GameObject EnemySelectPanel;
+
+    private List<GameObject> enemyBtns = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -84,8 +91,47 @@ public class BattleManager : MonoBehaviour {
             case (PerformAction.PERFORMACTION):
                 //just an idlestate
                 break;
-     
-        }
+
+            case (PerformAction.CHECKALIVE):
+                if(PlayersInBattle.Count < 1)
+                {
+                    battleStates = PerformAction.LOSE;
+                }
+                else if(EnemiesinBattle.Count < 1)
+                {
+                    battleStates = PerformAction.WIN;
+                }
+                else
+                {
+                    clearAttackPanel();
+                    HeroInput = HeroUI.ACTIVATE;
+                }
+                break;
+
+            case (PerformAction.LOSE):
+                {
+                    Debug.Log("Lost game");
+                    for (int i = 0; i < EnemiesinBattle.Count; i++)
+                    {
+                        EnemiesinBattle[i].GetComponent<EnemyStateMachine>().currentState = EnemyStateMachine.TurnState.WAITING;
+                    }
+                    SceneManager.LoadScene(0);
+                }
+               
+                break;
+
+            case (PerformAction.WIN):
+                {
+                    Debug.Log("You won");
+                    for (int i = 0; i < PlayersInBattle.Count; i++)
+                    {
+                        PlayersInBattle[i].GetComponent<HeroStateMachine>().currentState = HeroStateMachine.TurnState.WAITING;
+                    }
+                    SceneManager.LoadScene(0);
+                }
+                break;
+
+    }
 
         switch (HeroInput)
         {
@@ -114,8 +160,14 @@ public class BattleManager : MonoBehaviour {
     {
         PerformList.Add(input);
     }
-    void EnemyButtons()
+    public void EnemyButtons()
     {
+        foreach(GameObject enemyBtn in enemyBtns)
+        {
+            Destroy(enemyBtn);
+        }
+        enemyBtns.Clear();
+
         foreach(GameObject enemy in EnemiesinBattle)
         {
             GameObject newButton = Instantiate(enemyButton) as GameObject;
@@ -129,6 +181,7 @@ public class BattleManager : MonoBehaviour {
             button.EnemyPrefab = enemy;
 
             newButton.transform.SetParent(Spacer,false);
+            enemyBtns.Add(newButton);
         }
     }
     
@@ -151,9 +204,17 @@ public class BattleManager : MonoBehaviour {
     public void HeroInputDone()
     {
         PerformList.Add(HeroChoice);
-        EnemySelectPanel.SetActive(false);
+        clearAttackPanel();
+        
         HeroesToManage[0].transform.Find("Selector").gameObject.SetActive(false);
         HeroesToManage.RemoveAt(0);
         HeroInput = HeroUI.ACTIVATE;
+    }
+
+    void clearAttackPanel()
+    {
+        EnemySelectPanel.SetActive(false);
+        AttackPanel.SetActive(false);
+        
     }
 }

@@ -5,36 +5,38 @@ using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
+   
     public static Manager manager;
     public GameObject player;
-    bool gameStart;
+
+    public Vector3 playerPos;
+
+    public string sceneToLoad;
+    public string lastScene;
 
     // Start is called before the first frame update
     void Awake()
     {
-        if(!gameStart)
+       /* if(manager == null)
         {
             manager = this;
-            SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
+          //  SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
 
-
-            gameStart = true;
         }
+        else if(manager !=this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+        if (!GameObject.Find("PlayerWorldMap"))
+        {
+            GameObject Player = Instantiate(player, Vector3.zero, Quaternion.identity);
+            Player.name = "PlayerWorldMap";
+        }
+        */
     }
 
-    private void Update()
-    {
-        
-    }
-    public void UnloadScene(int scene)
-    {
-        StartCoroutine(Unload(scene));
-    }
 
-    IEnumerator Unload(int scene)
-    {
-        yield return null;
 
-        SceneManager.UnloadScene(scene);
-    }
+    
 }

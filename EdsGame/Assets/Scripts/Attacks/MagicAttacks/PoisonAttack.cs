@@ -8,7 +8,7 @@ public class PoisonAttack : BaseAttack
     {
         attackName = "Poison Mist";
         attackDesc = "Damage over time spell";
-        attackDamage = 15f;
+        attackDamage = 20f;
         attackMana = 15f;
     }
 }
