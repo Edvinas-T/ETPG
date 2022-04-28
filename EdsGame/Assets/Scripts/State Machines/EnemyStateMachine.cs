@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -27,9 +28,13 @@ public class EnemyStateMachine : MonoBehaviour
     private float animSpeed = 5f;
     public Animator NPCAnimator;
     public GameObject Selector;
+    private PanelStats stats;
+    public GameObject EnemyPanel;
+    private Image ProgressBar;
 
     void Start()
     {
+        createEnemyPanel();
         currentState = TurnState.PROCESSING;
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         startpos = transform.position;
@@ -66,8 +71,11 @@ public class EnemyStateMachine : MonoBehaviour
         void UpdateProgressBar()
         {
             cur_cooldown = cur_cooldown + Time.deltaTime;
-         
-            
+            float calc_cooldown = cur_cooldown / max_cooldown;
+            ProgressBar.transform.localScale = new Vector3(Mathf.Clamp(calc_cooldown, 0, 1),
+                ProgressBar.transform.localScale.y, ProgressBar.transform.localScale.z);
+
+
             if (cur_cooldown >= max_cooldown)
             {
                 currentState = TurnState.CHOOSEACTION;
@@ -146,6 +154,31 @@ public class EnemyStateMachine : MonoBehaviour
     {
         float calcDamage = enemy.curATK + BM.PerformList[0].chooseAttack.attackDamage;
         heroToAttack.GetComponent<HeroStateMachine>().takeDamage(calcDamage);
+    }
+    public void takeDamage(float damageAmount)
+    {
+        enemy.curHP -= damageAmount;
+        if(enemy.curHP <= 0)
+        {
+            enemy.curHP = 0;
+            currentState = TurnState.DEAD;
+        }
+        updateEnemyPanel();
+    }
+    void createEnemyPanel()
+    {
+        stats = EnemyPanel.GetComponent<PanelStats>();
+        stats.HeroName.text = enemy.theName;
+        stats.HeroHP.text = "HP: " + enemy.curHP;
+        stats.HeroMP.text = "MP: " + enemy.curMP;
+        ProgressBar = stats.ProgressBar;
+
+    }
+    void updateEnemyPanel()
+    {
+        stats.HeroHP.text = "HP: " + enemy.curHP;
+        stats.HeroMP.text = "MP: " + enemy.curMP;
+
     }
 }
 

@@ -33,7 +33,7 @@ public class HeroStateMachine : MonoBehaviour
 
     private bool alive = true;
 
-    private HeroPanelStats stats;
+    private PanelStats stats;
     public GameObject HeroPanel;
     
 
@@ -150,7 +150,7 @@ public class HeroStateMachine : MonoBehaviour
         yield return new WaitForSeconds(1f);
         NPCAnimator.SetBool("isAttack", false);
         //do damage
-
+        doDamage();
         //animate back to idle
         Vector3 firstPos = startpos;
         while (MoveTowardsStart(firstPos))
@@ -189,9 +189,14 @@ public class HeroStateMachine : MonoBehaviour
         }
         updatePlayerPanel();
     }
+    void doDamage()
+    {
+        float calcDamage = player.curATK + BM.PerformList[0].chooseAttack.attackDamage;
+        EnemytoAttack.GetComponent<EnemyStateMachine>().takeDamage(calcDamage);
+    }
     void createPlayerPanel()
     {
-        stats = HeroPanel.GetComponent<HeroPanelStats>();
+        stats = HeroPanel.GetComponent<PanelStats>();
         stats.HeroName.text = player.theName;
         stats.HeroHP.text = "HP: " + player.curHP;
         stats.HeroMP.text = "MP: " + player.curMP;
