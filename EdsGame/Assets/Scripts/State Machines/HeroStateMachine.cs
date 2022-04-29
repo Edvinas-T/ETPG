@@ -194,7 +194,7 @@ public class HeroStateMachine : MonoBehaviour
     }
     void doDamage()
     {
-        float calcDamage = player.curATK + BM.PerformList[0].chooseAttack.attackDamage;
+        float calcDamage = player.curATK + player.strength + BM.PerformList[0].chooseAttack.attackDamage;
         EnemytoAttack.GetComponent<EnemyStateMachine>().takeDamage(calcDamage);
     }
     void createPlayerPanel()
